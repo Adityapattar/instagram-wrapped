@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { useCallback, useId, useState, type DragEvent } from "react";
 import type { UploadResponse } from "../types";
 
-const API_UPLOAD_URL = "http://localhost:8000/upload";
+const API_UPLOAD_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") ||
+  "http://localhost:8000";
 
 interface UploadSectionProps {
   onUploadComplete: (response: UploadResponse) => void;
@@ -60,9 +62,10 @@ function createUploadRequest(file: File, onProgress: (value: number) => void) {
     xhr.onerror = () =>
       reject(
         new Error(
-          "Network error while uploading file. Make sure the backend at http://localhost:8000 is running.",
+          `Network error while uploading file. Make sure the backend at ${API_UPLOAD_URL} is running.`,
         ),
       );
+    xhr.open("POST", `${API_UPLOAD_URL}/upload`);
     xhr.send(form);
   });
 }

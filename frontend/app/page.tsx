@@ -17,7 +17,9 @@ import type {
   UploadResponse,
 } from "./types";
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") ||
+  "http://localhost:8000";
 
 async function fetchApi<T>(path: string): Promise<T> {
   const response = await fetch(`${BACKEND_URL}${path}`, { cache: "no-store" });

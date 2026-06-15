@@ -30,7 +30,9 @@ export default function MessageSearch({ chatId, onClose }: MessageSearchProps) {
   const [error, setError] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "length">("date");
 
-  const BACKEND_URL = "http://localhost:8000";
+  const BACKEND_URL =
+    process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") ||
+    "http://localhost:8000";
 
   const fetchMessages = async () => {
     setLoading(true);
